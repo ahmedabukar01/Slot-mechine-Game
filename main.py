@@ -30,6 +30,17 @@ def get_slot_mechine_spin(rows, cols, symbols):
             current_symbols.remove(value)
             column.append(value)
         columns.append(column)
+    return columns
+
+def print_slot_mechine(columns):
+    for row in range(len(columns)):
+        for i, column in enumerate(columns):
+            if i != len(columns) -1:
+                print(column[row], end=" | ")
+            else:
+                print(column[row],end="")
+        print()
+    print(columns)
 
 def deposit():
     while True:
@@ -82,5 +93,8 @@ def main():
             break
     print(f"You are betting ${bet} on {lines} lines and the total bet is: {total_bet}")
 
-# main()
-get_slot_mechine_spin(3,4, symbol_count)
+    slots = get_slot_mechine_spin(3,3, symbol_count)
+    print_slot_mechine(slots)
+
+main()
+# print(get_slot_mechine_spin(3,3, symbol_count))
