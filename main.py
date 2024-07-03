@@ -1,6 +1,5 @@
 import random
 
-
 MAX_NUMBER = 3
 MAX_BET = 100
 MIN_BET = 1
@@ -14,6 +13,27 @@ symbol_count = {
     "C": 6,
     "D": 8
 }
+
+symbol_values = {
+    "A": 5,
+    "B": 4,
+    "C": 3,
+    "D": 2
+}
+
+def check_winning(columns, lines, bet, values):
+    winnings = 0
+    winning_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for column in columns:
+            symbol_to_check = column[line]
+            if symbol != symbol_to_check:
+                break
+        else:
+                winnings += values[symbol] * bet
+                winning_lines.append(line + 1)
+    return winnings, winning_lines
 
 def get_slot_mechine_spin(rows, cols, symbols):
     all_symbols = []
@@ -81,8 +101,7 @@ def get_bet():
             print("please enter Number!")
     return amount
 
-def main():
-    balance = deposit()
+def spin(balance):
     lines = get_num_of_lines()
     while True:
         bet = get_bet()
@@ -95,6 +114,20 @@ def main():
 
     slots = get_slot_mechine_spin(3,3, symbol_count)
     print_slot_mechine(slots)
+    winnings, winning_lines = check_winning(slots, lines, bet, symbol_values)
+    print(f"you won: {winnings}")
+    print(f"you won on lines: ", *winning_lines)
+
+    return winnings - total_bet
+
+def main():
+    balance = deposit()
+    while True:
+        print(f"your current balance is ${balance}")
+        anwser = input("press enter to play (q to Quit)")
+        if anwser == "q":
+            break
+        balance += spin(balance)
 
 main()
 # print(get_slot_mechine_spin(3,3, symbol_count))
